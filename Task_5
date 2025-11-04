@@ -1,0 +1,118 @@
+namespace ConsoleApp55
+{
+    public abstract class Animal
+    { 
+        // поля
+        public string Species { get; set; } // вид
+        public int Age { get; set; } // возраст
+        public string Habitat { get; set; } //  среда обитания
+        public string Diet { get; set; } // рацион
+        protected Animal(string species, int age, string habitat, string diet)
+        {
+            Species = species;
+            Age = age;
+            Habitat = habitat;
+            Diet = diet;
+        }
+
+        public abstract void DisplayInfo();
+    }
+    public class Mammal : Animal
+    {
+        public string FurType { get; set; } // тип меха
+        public int GestationPeriod { get; set; } // продолжительность беременности
+
+        public Mammal(string species, int age, string habitat, string diet, string furType, int gestationPeriod) : base(species, age, habitat, diet)
+        {
+            FurType = furType;
+            GestationPeriod = gestationPeriod;
+        }
+
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Животное - {Species}: ");
+            Console.WriteLine($"возраст: {Age}, среда обитания: {Habitat}, рацион: {Diet}, тип меха: {FurType}, продолжительность беременности: {GestationPeriod} дней");
+            Console.WriteLine();
+        }
+    }
+    public class Bird : Animal
+    { 
+        // поля для птицы
+        public double WingSpan { get; set; } // размах крыльев в см
+        public string NestingType { get; set; } // тип гнездования
+
+        public Bird(string species, int age, string habitat, string diet, double wingSpan, string nestingType)
+            : base(species, age, habitat, diet)
+        {
+            WingSpan = wingSpan;
+            NestingType = nestingType;
+        }
+        // вывод данных
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Птица - {Species}: ");
+            Console.WriteLine($"возраст: {Age}, среда обитания: {Habitat}, рацион: {Diet}, размах крыльев: {WingSpan} см, тип гнездования: {NestingType}");
+            Console.WriteLine();
+        }
+    }
+
+    public class Reptile : Animal
+    {
+        // поля для рептилии
+        public string SkinType { get; set; } // тип кожи
+        public double TemperatureRequirement { get; set; } // температура среды в градусах
+
+        public Reptile(string species, int age, string habitat, string diet, string skinType, double temperatureRequirement)
+            : base(species, age, habitat, diet)
+        {
+            SkinType = skinType;
+            TemperatureRequirement = temperatureRequirement;
+        }
+         // вывод данных
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Рептилия - {Species}: ");
+            Console.WriteLine($"возраст: {Age}, среда обитания: {Habitat}, рацион: {Diet}, тип кожи: {SkinType}, температура среды: {TemperatureRequirement} °C");
+            Console.WriteLine();
+        }
+    }
+
+    public class Fish : Animal
+    { 
+        // поля для рыбы
+        public string ScaleType { get; set; } // тип чешуи
+        public double DepthRange { get; set; } // глубина обитания
+
+        public Fish(string species, int age, string habitat, string diet, string scaleType, double depthRange)
+            : base(species, age, habitat, diet)
+        {
+            ScaleType = scaleType;
+            DepthRange = depthRange;
+        }
+         
+        // вывод данных
+        public override void DisplayInfo()
+        {
+
+            Console.WriteLine($"Рыба - {Species}: ");
+            Console.WriteLine($"возраст: {Age}, среда обитания: {Habitat}, рацион: {Diet}, тип чешуи: {ScaleType}, глубина обитания: {DepthRange} метров");
+            Console.WriteLine();
+        }
+    }
+
+    public class Program
+    {
+        public static void Main()
+        {
+            Animal lion = new Mammal("Лев", 5, "Саванна", "хищник", "короткий", 110);
+            Animal eagle = new Bird("Орел", 3, "горы", "хищник", 200.5, "три");
+            Animal snake = new Reptile("Змея", 2, "Пустыня", "хищник", "чешуйчатый", 30.0);
+            Animal salmon = new Fish("Щука", 1, "озеро", "хищник", "гладкая", 100.0);
+
+            lion.DisplayInfo();
+            eagle.DisplayInfo();
+            snake.DisplayInfo();
+            salmon.DisplayInfo();
+        }
+    }
+}
