@@ -1,0 +1,115 @@
+namespace ConsoleApp53
+{
+    public class Employee
+    {
+        //поля
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public decimal Salary { get; set; }
+        public DateTime Date { get; set; }
+
+        // базовый класс
+        public Employee(string name, string position, decimal salary, DateTime date)
+        {
+            Name = name;
+            Position = position;
+            Salary = salary;
+            Date = date;
+        }
+        // вывод данных
+        public virtual void ShowInfo()
+        {
+            Console.WriteLine($"Имя: {Name}, Должность: {Position}, Зарплата: {Salary}, Дата приема: {Date.ToShortDateString()}");
+        }
+    }
+
+    public class Manager : Employee
+    {
+        //размер команды
+        public int TeamSize { get; set; }
+
+        // метод для вывода проведения собрания
+        public Manager(string name, decimal salary, DateTime date, int teamSize)
+            : base(name, "Менеджер", salary, date)
+        {
+            TeamSize = teamSize;
+        }
+         //  вывод проведения собрания
+        public void HoldMeeting()
+        {
+            Console.WriteLine($"{Name} проводит собрание с командой из {TeamSize} человек.");
+        }
+
+        // вывод размера команды
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            Console.WriteLine($"Размер команды: {TeamSize}");
+        }
+    }
+
+    public class Developer : Employee
+    { 
+        // свойство для языка прогрмаммирования
+        public string ProgrammingLanguage { get; set; }
+
+        public Developer(string name, decimal salary, DateTime date, string programmingLanguage)
+            : base(name, "Разработчик", salary, date)
+        {
+            ProgrammingLanguage = programmingLanguage;
+        }
+
+        //вывод языка программирования
+        public void WriteCode()
+        {
+            Console.WriteLine($"{Name} пишет код на языке {ProgrammingLanguage}.");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            Console.WriteLine($"Язык программирования: {ProgrammingLanguage}");
+        }
+    }
+
+    public class Director : Employee
+    { 
+        // свойство для отдела 
+        public string Department { get; set; }
+
+        public Director(string name, decimal salary, DateTime date, string department)
+            : base(name, "Директор", salary, date)
+        {
+            Department = department;
+        }
+
+        public void ApproveBudget()
+        {
+            Console.WriteLine($"{Name} утверждает бюджет для отдела {Department}.");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            Console.WriteLine($"Отдел: {Department}");
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Employee manager = new Manager("Павлова Татьяна", 180000, DateTime.Now.AddYears(-5), 10);
+            Employee developer = new Developer("Суслова Виктория", 160000, DateTime.Now.AddYears(-3), "C#");
+            Employee director = new Director("Пьянова Дарья", 120000, DateTime.Now.AddYears(-10), "IT");
+
+            manager.ShowInfo();
+            ((Manager)manager).HoldMeeting();
+
+            developer.ShowInfo();
+            ((Developer)developer).WriteCode();
+
+            director.ShowInfo();
+            ((Director)director).ApproveBudget();
+        }
+    }
+}
