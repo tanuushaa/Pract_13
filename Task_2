@@ -1,0 +1,132 @@
+namespace ConsoleApp56
+{
+    public abstract class BankAccount
+    { 
+        // поля для общего класса
+        public string AccountNumber { get; private set; }
+        public decimal Balance { get; protected set; }
+        public string Owner { get; private set; }
+
+        protected BankAccount(string accountNumber, decimal initialBalance, string owner)
+        {
+            AccountNumber = accountNumber;
+            Balance = initialBalance;
+            Owner = owner;
+        }
+
+        public virtual void Deposit(decimal amount)
+        {
+            if (amount <= 0)
+                Console.WriteLine("Сумма должна быть положительной.");
+
+            Balance += amount;
+            Console.WriteLine($"На счет {AccountNumber} внесено {amount}. Новый баланс: {Balance}");
+            Console.WriteLine();
+        }
+
+        public abstract void Withdraw(decimal amount);
+    }
+
+    public class CheckingAccount : BankAccount
+    {
+        public decimal OverdraftLimit { get; private set; }
+
+        public CheckingAccount(string accountNumber, decimal initialBalance, string owner, decimal overdraftLimit)
+            : base(accountNumber, initialBalance, owner)
+        {
+            OverdraftLimit = overdraftLimit;
+        }
+
+        public override void Withdraw(decimal amount)
+        {
+            if (amount <= 0)
+                throw new ArgumentException("Сумма должна быть положительной.");
+
+            if (Balance + OverdraftLimit < amount)
+                throw new InvalidOperationException("Недостаточно средств для снятия.");
+
+            Balance -= amount;
+            Console.WriteLine($"Снято {amount} со счета {AccountNumber}. Новый баланс: {Balance}");
+            Console.WriteLine();
+        }
+    }
+
+    public class SavingsAccount : BankAccount
+    { 
+        // поля сберегательног счета
+        public decimal InterestRate { get; private set; } // Процентная ставка
+
+        public SavingsAccount(string accountNumber, decimal initialBalance, string owner, decimal interestRate)
+            : base(accountNumber, initialBalance, owner)
+        {
+            InterestRate = interestRate;
+        }
+
+        public override void Withdraw(decimal amount)
+        {
+            if (amount <= 0)
+                Console.WriteLine("Сумма должна быть положительной.");
+
+            if (Balance < amount)
+                Console.WriteLine("Недостаточно средств для снятия.");
+
+            Balance -= amount;
+            Console.WriteLine($"Снято {amount} со счета {AccountNumber}. Новый баланс: {Balance}");
+            Console.WriteLine();
+        }
+
+        public void ApplyInterest()
+        {
+            Balance += Balance * InterestRate / 100;
+            Console.WriteLine($"Начислены проценты на счет {AccountNumber}. Новый баланс: {Balance}");
+            Console.WriteLine();
+        }
+    }
+
+    public class CreditAccount : BankAccount
+    {  // поля для кредита
+        public decimal CreditLimit { get; private set; }
+        public int RepaymentTerm { get; private set; } // В месяцах
+
+        public CreditAccount(string accountNumber, decimal initialBalance, string owner, decimal creditLimit, int repaymentTerm)
+            : base(accountNumber, initialBalance, owner)
+        {
+            CreditLimit = creditLimit;
+            RepaymentTerm = repaymentTerm;
+        }
+
+        public override void Withdraw(decimal amount)
+        {
+            if (amount <= 0)
+                Console.WriteLine("Сумма должна быть положительной.");
+
+            if (Balance + CreditLimit < amount)
+                Console.WriteLine("Превышен кредитный лимит.");
+
+            Balance -= amount;
+            Console.WriteLine($"Снято {amount} со счета {AccountNumber}. Новый баланс: {Balance}");
+            Console.WriteLine();
+        }
+    }
+
+    // вывод
+    public class Program
+    {
+        public static void Main()
+        {
+            var checkingAccount = new CheckingAccount("123456", 1000m, "Татьяна Павлова", 500m);
+            var savingsAccount = new SavingsAccount("234567", 2000m, "Петр Петров", 5m);
+            var creditAccount = new CreditAccount("345678", 0m, "Елена Вячеславовна", 1500m, 12);
+
+            checkingAccount.Deposit(200m);
+            checkingAccount.Withdraw(1200m);
+
+            savingsAccount.Deposit(300m);
+            savingsAccount.Withdraw(100m);
+            savingsAccount.ApplyInterest();
+
+            creditAccount.Withdraw(1000m);
+            creditAccount.Withdraw(600m); // должно быть допустимо благодаря кредитному лимиту
+        }
+    }
+}
