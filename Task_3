@@ -1,0 +1,131 @@
+namespace ConsoleApp52
+{
+    public abstract class LibraryItem
+    {
+        // поля со свойствами( будут наследоваться всеми остальными)
+        public string Title { get; set; }// название
+        public string Author { get; set; } // автор
+        public int PublicationYear { get; set; } // год издания
+        public bool IsAvailable { get; set; } // статус доступа
+         // конструктор
+        protected LibraryItem(string title, string author, int publicationYear, bool isAvailable)
+        {
+            Title = title;
+            Author = author;
+            PublicationYear = publicationYear;
+            IsAvailable = isAvailable;
+        }
+        public virtual void DisplayInfo()
+        {
+            Console.WriteLine($"Название: {Title}");
+            Console.WriteLine($"Автор: {Author}");
+            Console.WriteLine($"Год издания: {PublicationYear}");
+            Console.WriteLine($"Доступно: {(IsAvailable ? "Да" : "Нет")}");
+        }
+    }
+
+    public class Book : LibraryItem
+    {
+        // поля со свойствами
+        public int PageCount { get; set; } // количество страниц
+        public string ISBN { get; set; }
+
+        // констуктор
+        public Book(string title, string author, int publicationYear, bool isAvailable, int pageCount, string isbn)
+            : base(title, author, publicationYear, isAvailable)
+        {
+            PageCount = pageCount;
+            ISBN = isbn;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Количество страниц: {PageCount}");
+            Console.WriteLine($"ISBN: {ISBN}");
+        }
+    }
+
+    public class Magazine : LibraryItem
+    {
+        // поля со свойствами
+        public int IssueNumber { get; set; }// номер выпуска
+        public string Frequency { get; set; } // переодичность
+        // конструктор
+        public Magazine(string title, string author, int publicationYear, bool isAvailable, int issueNumber, string frequency)
+            : base(title, author, publicationYear, isAvailable)
+        {
+            IssueNumber = issueNumber;
+            Frequency = frequency;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Номер выпуска: {IssueNumber}");
+            Console.WriteLine($"Периодичность: {Frequency}");
+        }
+    }
+
+    public class DVD : LibraryItem
+    {
+        // поля со свойствами
+        public int Duration { get; set; } //продолжительность в минутах
+        public string Rating { get; set; }// рейтинг двд
+        // конструктор
+        public DVD(string title, string author, int publicationYear, bool isAvailable, int duration, string rating)
+            : base(title, author, publicationYear, isAvailable)
+        {
+            Duration = duration;
+            Rating = rating;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Продолжительность: {Duration} минут");
+            Console.WriteLine($"Рейтинг: {Rating}");
+        }
+    }
+
+    public class Audiobook : LibraryItem
+    {
+        // поля со свойствами
+        public int Duration { get; set; } // длительность в минутах
+        public string Narrator { get; set; } // диктор
+        // конструктор
+        public Audiobook(string title, string author, int publicationYear, bool isAvailable, int duration, string narrator)
+            : base(title, author, publicationYear, isAvailable)
+        {
+            Duration = duration;
+            Narrator = narrator;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Длительность: {Duration} минут");
+            Console.WriteLine($"Диктор: {Narrator}");
+        }
+    }
+
+    // вывод
+    public class Program
+    {
+        public static void Main()
+        {
+            LibraryItem book = new Book("1984", "Дж. Оруэлл", 1949, true, 328, "188045228214");
+            LibraryItem magazine = new Magazine("Сказка о рыбаке и рыбке", "А. С. Пушкин", 1835, true, 5, "Ежемесячно");
+            LibraryItem dvd = new DVD("Война и мир", "Лев Толстой", 1967, false, 1148, "PG-13");
+            LibraryItem audiobook = new Audiobook("The Hobbit", "Дж. Р. Р. Толкин", 1937, true, 600, "Нил Гейман");
+
+            book.DisplayInfo();
+            Console.WriteLine();
+            magazine.DisplayInfo();
+            Console.WriteLine();
+            dvd.DisplayInfo();
+            Console.WriteLine();
+            audiobook.DisplayInfo();
+        }
+    }
+}
