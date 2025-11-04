@@ -1,0 +1,102 @@
+namespace ConsoleApp57
+{
+    public class Course
+    {
+        //поля
+        public string Title { get; set; } //название
+        public string Description { get; set; }// описание
+        public string Author { get; set; }//автор
+        public decimal Price { get; set; }// цена
+        //конструктор
+        public Course(string title, string description, string author, decimal price)
+        {
+            Title = title;
+            Description = description;
+            Author = author;
+            Price = price;
+        }
+        public virtual void DisplayInfo()
+        {
+            Console.WriteLine($"Название: {Title}");
+            Console.WriteLine($"Описание: {Description}");
+            Console.WriteLine($"Автор: {Author}");
+            Console.WriteLine($"Цена: {Price}");
+        }
+    }
+
+    public class VideoCourse : Course
+    {
+        public int VideoCount { get; set; } // количество видео
+        public int TotalDuration { get; set; } //общая длительность  в минутах
+
+        public VideoCourse(string title, string description, string author, decimal price, int videoCount, int totalDuration)
+            : base(title, description, author, price)
+        {
+            VideoCount = videoCount;
+            TotalDuration = totalDuration;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Количество видео: {VideoCount}");
+            Console.WriteLine($"Общая длительность: {TotalDuration} минут");
+        }
+    }
+
+    public class TextCourse : Course
+    {
+        public int ChapterCount { get; set; }// количество глав
+        public int TotalTextVolume { get; set; } //объем текста в страницах
+
+        public TextCourse(string title, string description, string author, decimal price, int chapterCount, int totalTextVolume)
+            : base(title, description, author, price)
+        {
+            ChapterCount = chapterCount;
+            TotalTextVolume = totalTextVolume;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Количество глав: {ChapterCount}");
+            Console.WriteLine($"Общий объем текста: {TotalTextVolume} страниц");
+        }
+    }
+
+    public class InteractiveCourse : Course
+    {
+        // поля со свойствами
+        public int ExerciseCount { get; set; } //количество упражнений
+        public string AssessmentSystem { get; set; } //система пооверки
+        // конструктор
+        public InteractiveCourse(string title, string description, string author, decimal price, int exerciseCount, string assessmentSystem)
+            : base(title, description, author, price)
+        {
+            ExerciseCount = exerciseCount;
+            AssessmentSystem = assessmentSystem;
+        }
+
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+            Console.WriteLine($"Количество упражнений: {ExerciseCount}");
+            Console.WriteLine($"Система проверки: {AssessmentSystem}");
+        }
+    }
+// вывод
+    public class Program
+    {
+        public static void Main()
+        {
+            Course videoCourse = new VideoCourse("C# для начинающих", "Изучите основы C#.", "Татьяна Павлова", 2999.99m, 10, 260);
+            Course textCourse = new TextCourse("Алгоритмы и структуры данных", "Курс по алгоритмам.", "Лида Петрова", 1499.99m, 12, 280);
+            Course interactiveCourse = new InteractiveCourse("Python для анализа данных", "Изучите Python для анализа данных.", "Екатерина Сидорова", 2499.99m, 15, "Автоматическая проверка");
+            videoCourse.DisplayInfo();
+            Console.WriteLine();
+            textCourse.DisplayInfo();
+            Console.WriteLine();
+            interactiveCourse.DisplayInfo();
+        }
+    }
+}
